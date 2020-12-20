@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS employee_DB;
-CREATE database employee_DB;
-USE employee_DB;
+DROP DATABASE IF EXISTS hr_DB;
+CREATE database hr_DB;
+USE hr_DB;
 create table department (
     id int AUTO_INCREMENT,
     name VARCHAR (30),

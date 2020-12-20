@@ -5,7 +5,7 @@ const inquirer = require("inquirer");
 const connection = mysql.createConnection({
   host: "localhost",
 
-  // Port; 
+  // Port;
   port: 3306,
 
   // Username
@@ -16,4 +16,9 @@ const connection = mysql.createConnection({
   database: "hr_DB",
 });
 
-
+// connect to the mysql server and sql database
+connection.connect((err) => {
+  if (err) throw err;
+  // run the start function after the connection is made to prompt the user
+  start();
+});

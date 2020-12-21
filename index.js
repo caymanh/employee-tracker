@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
   user: "root",
 
   // Your Password
-  password: "Iamawesome90!",
+  password: "",
   database: "hr_DB",
 });
 
@@ -25,6 +25,14 @@ const viewEmployee = () => {
     start();
   });
 };
+
+const viewByDept = () => {
+    connection.query("SELECT * FROM department", (err, res) => {
+      if (err) throw err;
+      console.table(res);
+      start();
+    });
+  };
 
 //Function to initialize the program
 const start = () => {

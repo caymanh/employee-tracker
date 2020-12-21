@@ -27,12 +27,20 @@ const viewEmployee = () => {
 };
 
 const viewByDept = () => {
-    connection.query("SELECT * FROM department", (err, res) => {
-      if (err) throw err;
-      console.table(res);
-      start();
-    });
-  };
+  connection.query("SELECT * FROM department", (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    start();
+  });
+};
+
+const viewByManager = () => {
+  connection.query("SELECT * from employee", (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    start();
+  });
+};
 
 //Function to initialize the program
 const start = () => {
@@ -62,16 +70,16 @@ const start = () => {
           viewByDept();
         case "View All Employees By Manager":
           viewByManager();
-        case "Add Employee": //4
-          addEmployee();
-        case "Remove Employee":
-          removeEmployee();
-        case "Update Employee Role": //5
-          updateRole();
-        case "Update Employee Manager":
-          updateManager();
-        case "View All Roles": //3
-          viewRole();
+        // case "Add Employee": //4
+        //   addEmployee();
+        // case "Remove Employee":
+        //   removeEmployee();
+        // case "Update Employee Role": //5
+        //   updateRole();
+        // case "Update Employee Manager":
+        //   updateManager();
+        // case "View All Roles": //3
+        //   viewRole();
         default:
           console.log("You have quit the application. Thank you.");
           connection.end();

@@ -1,5 +1,7 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const cTable = require("console.table");
+// const command = require('./action');
 
 // create the connection information for the sql database
 const connection = mysql.createConnection({
@@ -12,10 +14,19 @@ const connection = mysql.createConnection({
   user: "root",
 
   // Your Password
-  password: "",
+  password: "Iamawesome90!",
   database: "hr_DB",
 });
 
+const viewEmployee = () => {
+  connection.query("SELECT * FROM employee", (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    start();
+  });
+};
+
+//Function to initialize the program
 const start = () => {
   inquirer
     .prompt({
@@ -36,25 +47,27 @@ const start = () => {
     })
     .then((answer) => {
       // based on their answer, call a relevant function
-      switch (answer) {
-        case "View All Employees":
+      switch (answer.action) {
+        case "View All Employees": //1
           viewEmployee();
-        case "View All Employees By Department":
+        case "View All Employees By Department": //2
           viewByDept();
         case "View All Employees By Manager":
           viewByManager();
-        case "Add Employee":
+        case "Add Employee": //4
           addEmployee();
         case "Remove Employee":
           removeEmployee();
-        case "Updated Employee Role":
+        case "Update Employee Role": //5
           updateRole();
         case "Update Employee Manager":
           updateManager();
-        case "View All Roles":
+        case "View All Roles": //3
           viewRole();
         default:
+          console.log("You have quit the application. Thank you.");
           connection.end();
+          break;
       }
     });
 };

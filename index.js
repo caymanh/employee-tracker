@@ -2,7 +2,10 @@ const mysql = require("mysql");
 const inquirer = require("inquirer");
 const figlet = require("figlet");
 const cTable = require("console.table");
-const command = require("./action");
+const Query = require("./userQuery");
+
+//create new user query object
+const userQuery = new Query;
 
 // create the connection information for the sql database
 const connection = mysql.createConnection({
@@ -20,7 +23,7 @@ const connection = mysql.createConnection({
 });
 
 const viewEmployee = () => {
-  connection.query("SELECT * FROM employee", (err, res) => {
+  connection.query(userQuery.viewEmployee, (err, res) => {
     if (err) throw err;
     console.table(res);
     start();
@@ -28,7 +31,7 @@ const viewEmployee = () => {
 };
 
 const viewByDept = () => {
-  connection.query("SELECT * FROM department", (err, res) => {
+  connection.query(userQuery.viewByDept, (err, res) => {
     if (err) throw err;
     console.table(res);
     start();
@@ -36,7 +39,15 @@ const viewByDept = () => {
 };
 
 const viewByManager = () => {
-  connection.query("SELECT * from employee", (err, res) => {
+  connection.query(userQuery.viewByManager, (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    start();
+  });
+};
+
+const viewRoles = () => {
+  connection.query(userQuery.viewRoles, (err, res) => {
     if (err) throw err;
     console.table(res);
     start();
@@ -87,7 +98,7 @@ const start = () => {
           updateManager();
           break;
         case "View All Roles": //3
-          viewRole();
+          viewRoles();
           break;
         case "Exit":
           // console.log("You have quit the application. Thank you.");

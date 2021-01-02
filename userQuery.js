@@ -81,6 +81,12 @@ class Query {
 
     this.viewRoles = `SELECT * FROM role;
     `;
+
+    this.addEmployee = `
+    INSERT INTO employee SET ?`;
+
+    this.updateEmployee = `
+    UPDATE employee SET role_id = ? WHERE id = ?`;
   }
 }
 

@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const figlet = require("figlet");
 const cTable = require("console.table");
 // const command = require('./action');
 
@@ -21,6 +22,7 @@ const connection = mysql.createConnection({
 const viewEmployee = () => {
   connection.query("SELECT * FROM employee", (err, res) => {
     if (err) throw err;
+    console.log("Displaying All Employees...");
     console.table(res);
     start();
   });
@@ -44,48 +46,56 @@ const viewByManager = () => {
 
 //Function to initialize the program
 const start = () => {
-  inquirer
-    .prompt({
-      name: "action",
-      type: "list",
-      message: "What would you like to do?",
-      choices: [
-        "View All Employees",
-        "View All Employees By Department",
-        "View All Employees By Manager",
-        "Add Employee",
-        "Remove Employee",
-        "Update Employee Role",
-        "Update Employee Manager",
-        "View All Roles",
-        "Exit",
-      ],
-    })
-    .then((answer) => {
-      // based on their answer, call a relevant function
-      switch (answer.action) {
-        case "View All Employees": //1
-          viewEmployee();
-        case "View All Employees By Department": //2
-          viewByDept();
-        case "View All Employees By Manager":
-          viewByManager();
-        // case "Add Employee": //4
-        //   addEmployee();
-        // case "Remove Employee":
-        //   removeEmployee();
-        // case "Update Employee Role": //5
-        //   updateRole();
-        // case "Update Employee Manager":
-        //   updateManager();
-        // case "View All Roles": //3
-        //   viewRole();
-        default:
-          console.log("You have quit the application. Thank you.");
-          connection.end();
-          break;
-      }
-    });
+  figlet("Employee Manager", function (err, data) {
+    if (err) {
+      console.log("Something went wrong...");
+      console.dir(err);
+      return;
+    }
+    console.log(data);
+    inquirer
+      .prompt({
+        name: "action",
+        type: "list",
+        message: "What would you like to do?",
+        choices: [
+          "View All Employees",
+          "View All Employees By Department",
+          "View All Employees By Manager",
+          "Add Employee",
+          "Remove Employee",
+          "Update Employee Role",
+          "Update Employee Manager",
+          "View All Roles",
+          "Exit",
+        ],
+      })
+      .then((answer) => {
+        // based on their answer, call a relevant function
+        switch (answer.action) {
+          case "View All Employees": //1
+            viewEmployee();
+          case "View All Employees By Department": //2
+            viewByDept();
+          case "View All Employees By Manager":
+            viewByManager();
+          // case "Add Employee": //4
+          //   addEmployee();
+          // case "Remove Employee":
+          //   removeEmployee();
+          // case "Update Employee Role": //5
+          //   updateRole();
+          // case "Update Employee Manager":
+          //   updateManager();
+          // case "View All Roles": //3
+          //   viewRole();
+          default:
+            console.log("You have quit the application. Thank you.");
+            connection.end();
+            break;
+        }
+      });
+  });
 };
 
 // connect to the mysql server and sql database

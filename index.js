@@ -2,7 +2,7 @@ const mysql = require("mysql");
 const inquirer = require("inquirer");
 const figlet = require("figlet");
 const cTable = require("console.table");
-// const command = require('./action');
+const command = require("./action");
 
 // create the connection information for the sql database
 const connection = mysql.createConnection({
@@ -75,21 +75,29 @@ const start = () => {
         switch (answer.action) {
           case "View All Employees": //1
             viewEmployee();
+            break;
           case "View All Employees By Department": //2
             viewByDept();
+            break;
           case "View All Employees By Manager":
             viewByManager();
-          // case "Add Employee": //4
-          //   addEmployee();
-          // case "Remove Employee":
-          //   removeEmployee();
-          // case "Update Employee Role": //5
-          //   updateRole();
-          // case "Update Employee Manager":
-          //   updateManager();
-          // case "View All Roles": //3
-          //   viewRole();
-          default:
+            break;
+          case "Add Employee": //4
+            addEmployee();
+            break;
+          case "Remove Employee":
+            removeEmployee();
+            break;
+          case "Update Employee Role": //5
+            updateRole();
+            break;
+          case "Update Employee Manager":
+            updateManager();
+            break;
+          case "View All Roles": //3
+            viewRole();
+            break;
+          case "Exit":
             console.log("You have quit the application. Thank you.");
             connection.end();
             break;

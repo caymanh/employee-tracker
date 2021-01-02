@@ -90,7 +90,15 @@ const start = () => {
           viewRole();
           break;
         case "Exit":
-          console.log("You have quit the application. Thank you.");
+          // console.log("You have quit the application. Thank you.");
+          figlet('Session Ended. Thank you.', function(err, data) {
+            if (err) {
+                console.log('Something went wrong...');
+                console.dir(err);
+                return;
+            }
+            console.log(data)
+        });
           connection.end();
           break;
       }

@@ -22,7 +22,6 @@ const connection = mysql.createConnection({
 const viewEmployee = () => {
   connection.query("SELECT * FROM employee", (err, res) => {
     if (err) throw err;
-    console.log("Displaying All Employees...");
     console.table(res);
     start();
   });

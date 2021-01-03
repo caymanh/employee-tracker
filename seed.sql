@@ -39,15 +39,3 @@ INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ('John','Doe',1,null),('Mike','Chan',2,null),('Ashley','Rodriguez',3,null),
 ('Kevin','Tupik',4,null),('Malia','Brown',1,null),('Sarah','Lourd',2,null),
 ('Tom','Allen',3,null),('Christian','Eckenrode',3,null);
-
-SELECT department.id, department.name, role.title, role.id
-FROM department INNER JOIN role ON (department.id = role.department_id);
-
-SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(manager.first_name," ", manager.last_name) as manager
-FROM employee employee
-LEFT JOIN employee manager  
-	ON manager.id = employee.manager_id
-INNER JOIN role 
-	ON role.id = employee.role_id
-INNER JOIN department
-	ON department.id = role.department_id;

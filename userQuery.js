@@ -72,21 +72,14 @@ class Query {
     SELECT * FROM department;
     `;
 
-    this.viewbyManager = `
-    SELECT manager.id, CONCAT(manager.first_name," ", manager.last_name) as manager 
-    FROM employee employee
-    INNER JOIN employee manager
-    ON manager.id = employee.manager_id;
-    `;
-
     this.viewRoles = `SELECT * FROM role;
     `;
 
+    this.updateRole = `
+    UPDATE employee SET role_id = ? WHERE id = ?`;
+
     this.addEmployee = `
     INSERT INTO employee SET ?`;
-
-    this.updateEmployee = `
-    UPDATE employee SET role_id = ? WHERE id = ?`;
   }
 }
 

@@ -38,13 +38,13 @@ const viewByDept = () => {
   });
 };
 
-// const viewByManager = () => {
-//   connection.query(userQuery.viewByManager, (err, res) => {
-//     if (err) throw err;
-//     console.table(res);
-//     start();
-//   });
-// };
+const viewRoles = () => {
+  connection.query(userQuery.viewRoles, (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    start();
+  });
+};
 
 const updateRole = () => {
   connection.query(userQuery.viewEmployee, (err, res) => {
@@ -81,11 +81,13 @@ const updateRole = () => {
 
       let answer = (response) => {
         connection.query(
-          userQuery.updateEmployee,
+          userQuery.updateRole,
           [role[response.role], employee[response.employee]],
           (err, res) => {
             if (err) throw err;
-            console.log(`Successfully updated ${response.employee}'s role to ${response.role}.`);
+            console.log(
+              `Successfully updated ${response.employee}'s role to ${response.role}.`
+            );
             start();
           }
         );
@@ -95,11 +97,72 @@ const updateRole = () => {
   });
 };
 
-const viewRoles = () => {
+const addEmployee = () => {
   connection.query(userQuery.viewRoles, (err, res) => {
     if (err) throw err;
-    console.table(res);
-    start();
+    let role = {};
+    res.forEach((ele) => {
+      role[ele.title] = ele.id;
+    });
+
+    connection.query(userQuery.viewEmployee + ";", (err, res) => {
+      if (err) throw err;
+      let employee = {
+        none: null,
+      };
+
+      res.forEach((ele) => {
+        let name = [ele.first_name, ele.last_name].join(" ");
+        employee[name] = ele.id;
+      });
+
+      let question = [
+        {
+          type: "input",
+          message: "Enter the employee's first name",
+          name: "first_name",
+        },
+        {
+          type: "input",
+          message: "Enter the employee's last name",
+          name: "last_name",
+        },
+        {
+          type: "list",
+          message: "Enter the employee's role",
+          choices: Object.keys(role),
+          name: "role",
+        },
+        {
+          type: "list",
+          message: "Enter the name of the employee's manager?",
+          choices: Object.keys(employee),
+          name: "manager",
+        },
+      ];
+
+      let answer = (response) => {
+        connection.query(
+          userQuery.addEmployee,
+          [
+            {
+              first_name: response.first_name,
+              last_name: response.last_name,
+              role_id: role[response.role],
+              manager_id: employee[response.manager],
+            },
+          ],
+          (err, res) => {
+            if (err) throw err;
+            console.log(
+              `Successfully added ${response.first_name} ${response.last_name} as an employee`
+            );
+            start();
+          }
+        );
+      };
+      inquirer.prompt(question).then(answer);
+    });
   });
 };
 

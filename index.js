@@ -166,6 +166,67 @@ const addEmployee = () => {
   });
 };
 
+const addRole = () => {
+  connection.query(userQuery.viewByDept, (err, res) => {
+    if (err) throw err;
+    let dept = {};
+    res.forEach((ele) => {
+      dept[ele.name] = ele.id;
+    });
+
+    connection.query(userQuery.viewRoles, (err, res) => {
+      if (err) throw err;
+      let roles = res.map((ele) => ele.title.toLowerCase());
+      let question = [
+        {
+          type: "input",
+          message: "Enter the role that you would like to add",
+          name: "role",
+          validate: (value) => {
+            if (roles.includes(value.toLowerCase()))
+              return "The role already exists in our system. Please input another role.";
+            else return true;
+          },
+        },
+        {
+          type: "input",
+          message: "Enter the salary for this role.",
+          name: "salary",
+          validate: (value) => {
+            if (isNaN(value)) return "Please enter a valid number.";
+            else return true;
+          },
+        },
+        {
+          type: "list",
+          message: "Enter the department this role belong to.",
+          name: "department",
+          choices: Object.keys(dept),
+        },
+      ];
+      let answer = (response) => {
+        connection.query(
+          userQuery.addRole,
+          [
+            {
+              title: response.role,
+              salary: response.salary,
+              department_id: dept[response.department],
+            },
+          ],
+          (err, res) => {
+            if (err) throw err;
+            console.log(`Added ${response.role} in the system`);
+
+            start();
+          }
+        );
+      };
+      inquirer.prompt(question).then(answer);
+    });
+  });
+};
+
 //Function to initialize the program
 const start = () => {
   inquirer

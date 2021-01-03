@@ -80,6 +80,9 @@ class Query {
 
     this.addEmployee = `
     INSERT INTO employee SET ?`;
+
+    this.addRole = `
+    INSERT INTO role SET ?`;
   }
 }
 

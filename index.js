@@ -30,8 +30,8 @@ const viewEmployee = () => {
   });
 };
 
-const viewByDept = () => {
-  connection.query(userQuery.viewByDept, (err, res) => {
+const viewDept = () => {
+  connection.query(userQuery.viewDept, (err, res) => {
     if (err) throw err;
     console.table(res);
     start();
@@ -167,7 +167,7 @@ const addEmployee = () => {
 };
 
 const addRole = () => {
-  connection.query(userQuery.viewByDept, (err, res) => {
+  connection.query(userQuery.viewDept, (err, res) => {
     if (err) throw err;
     let dept = {};
     res.forEach((ele) => {
@@ -227,6 +227,44 @@ const addRole = () => {
   });
 };
 
+const addDepartment = () => {
+  connection.query(userQuery.viewDept, (err, res) => {
+    if (err) throw err;
+    let dept = res.map((ele) => ele.name.toLowerCase());
+    let question = [
+      {
+        type: "input",
+        message: "Enter the department to be added?",
+        name: "department",
+        validate: (value) => {
+          if (dept.includes(value.toLowerCase()))
+            return "This department already exists in the system. Please enter another department.";
+          else return true;
+        },
+      },
+    ];
+    let answer = (response) => {
+      connection.query(
+        userQuery.addDepartment,
+        [
+          {
+            name: response.department,
+          },
+        ],
+        (err, res) => {
+          if (err) throw err;
+          console.log(
+            `Added ${response.department} as a department in the system.`
+          );
+
+          start();
+        }
+      );
+    };
+    inquirer.prompt(question).then(answer);
+  });
+};
+
 //Function to initialize the program
 const start = () => {
   inquirer
@@ -236,7 +274,7 @@ const start = () => {
       message: "What would you like to do?",
       choices: [
         "View All Employees",
-        "View All Employees By Department",
+        "View All Departments",
         "View All Roles",
         "Add Employee",
         "Add Department",
@@ -251,8 +289,8 @@ const start = () => {
         case "View All Employees":
           viewEmployee();
           break;
-        case "View All Employees By Department":
-          viewByDept();
+        case "View All Departments":
+          viewDept();
           break;
         case "Add Employee":
           addEmployee();

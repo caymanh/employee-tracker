@@ -68,7 +68,7 @@ class Query {
       ON department.id = role.department_id;
     `;
 
-    this.viewByDept = `
+    this.viewDept = `
     SELECT * FROM department;
     `;
 
@@ -83,6 +83,9 @@ class Query {
 
     this.addRole = `
     INSERT INTO role SET ?`;
+
+    this.addDepartment = `
+        INSERT INTO department SET ?`;
   }
 }
 

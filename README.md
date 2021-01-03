@@ -23,6 +23,8 @@
  - View departments, roles, employees
  - Update employees roles
 
+A detailed walkthrough of the application can be accessed [here](https://drive.google.com/file/d/1QdQF20u7tF3x86nkinmNms9Ym4klNmvv/view).
+
  <p align="center">
   <img alt="Screenshot 1 of Employee Tracker" src="./image/employee-tracker-01.JPG">
 </p>
